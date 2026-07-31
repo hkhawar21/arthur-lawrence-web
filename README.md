@@ -37,18 +37,18 @@ Auth hits the backend's in-memory user store (`POST /api/auth/login`). The seede
 
 ## Libraries used
 
-| Library                                                                                         | Purpose                                                                                                             |
-| ------------------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------|
-| `react`, `react-dom`                                                                              | Core UI runtime                                                                                                     |
-| `react-router-dom`                                                                                | Client-side routing (`BrowserRouter`), including the `ProtectedRoute` guard                                         |
-| `zustand`                                                                                         | Global client state — auth session and the portfolio store                                                          |
-| `zod`                                                                                             | Runtime validation of API request/response shapes, source of truth for portfolio/auth TypeScript types (`z.infer`) |
-| `formik` + `yup`                                                                                  | Form state and validation (login form, portfolio create/edit form)                                                  |
-| `vite`, `@vitejs/plugin-react`                                                                    | Dev server and build tooling                                                                                        |
-| `vitest`, `@testing-library/react`, `@testing-library/user-event`, `@testing-library/jest-dom`    | Component/unit testing                                                                                              |
-| `msw`                                                                                              | Mocking the backend API in tests, at the network layer                                                              |
-| `eslint` + `eslint-plugin-react-hooks`, `eslint-plugin-react-refresh`                              | Linting                                                                                                              |
-| TypeScript                                                                                         | Static typing for API/store/types layers (components remain `.jsx`)                                                 |
+| Library                                                                                        | Purpose                                                                                                            |
+| ---------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| `react`, `react-dom`                                                                           | Core UI runtime                                                                                                    |
+| `react-router-dom`                                                                             | Client-side routing (`BrowserRouter`), including the `ProtectedRoute` guard                                        |
+| `zustand`                                                                                      | Global client state — auth session and the portfolio store                                                         |
+| `zod`                                                                                          | Runtime validation of API request/response shapes, source of truth for portfolio/auth TypeScript types (`z.infer`) |
+| `formik` + `yup`                                                                               | Form state and validation (login form, portfolio create/edit form)                                                 |
+| `vite`, `@vitejs/plugin-react`                                                                 | Dev server and build tooling                                                                                       |
+| `vitest`, `@testing-library/react`, `@testing-library/user-event`, `@testing-library/jest-dom` | Component/unit testing                                                                                             |
+| `msw`                                                                                          | Mocking the backend API in tests, at the network layer                                                             |
+| `eslint` + `eslint-plugin-react-hooks`, `eslint-plugin-react-refresh`                          | Linting                                                                                                            |
+| TypeScript                                                                                     | Static typing for API/store/types layers (components remain `.jsx`)                                                |
 
 ## Architecture decisions
 
@@ -73,9 +73,7 @@ Auth hits the backend's in-memory user store (`POST /api/auth/login`). The seede
 
 ## Known limitations
 
-- **`deleteError` is a single global field**, not per-item. If two deletes are ever in flight at once, a failure message could theoretically be attributed to the wrong row (unlikely in practice since delete is a deliberate one-row action, but worth knowing).
 - **No i18n.** User-facing strings are hardcoded English; there's no `t()`/locale layer yet.
-- **`useGetPortfolioItem` (edit-screen prefill) always fetches fresh** rather than first checking the portfolio store's cache, even if the item was already loaded from the list. This is intentional, to reflect the latest server-side data rather than a possibly-stale cached copy.
 - **Session storage is `localStorage`-backed**, so it isn't available in contexts where `localStorage` is disabled (e.g. private browsing in some browsers); `secure-store.ts` fails closed in that case rather than crashing.
 
 ## What would be improved with more time
