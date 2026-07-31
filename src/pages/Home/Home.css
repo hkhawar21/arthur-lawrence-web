@@ -1,0 +1,243 @@
+.home-page {
+  flex: 1;
+  padding: 32px;
+  text-align: left;
+}
+
+.home-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.home-header h1 {
+  text-align: left;
+  margin: 0 0 4px;
+  font-size: 32px;
+}
+
+.home-header button {
+  font: inherit;
+  padding: 10px 16px;
+  border-radius: 6px;
+  color: var(--accent);
+  background: var(--accent-bg);
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: border-color 0.3s;
+}
+
+.home-header button:hover {
+  border-color: var(--accent-border);
+}
+
+.portfolio-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.portfolio-section-header h2 {
+  margin: 0;
+  text-align: left;
+}
+
+.portfolio-new-link {
+  font-weight: 500;
+  padding: 10px 16px;
+  border-radius: 6px;
+  color: var(--accent);
+  background: var(--accent-bg);
+  border: 2px solid transparent;
+  transition: border-color 0.3s;
+}
+
+.portfolio-new-link:hover {
+  border-color: var(--accent-border);
+}
+
+.portfolio-error {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--error, #d32f2f);
+}
+
+.portfolio-error button {
+  font: inherit;
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--error, #d32f2f);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.portfolio-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.portfolio-item {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  text-align: left;
+}
+
+.portfolio-item-image {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.portfolio-item-body {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.portfolio-item-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.portfolio-item-heading h3 {
+  margin: 0;
+  font-size: 18px;
+  color: var(--text-h);
+}
+
+.portfolio-item-status {
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  color: var(--accent);
+  background: var(--accent-bg);
+  white-space: nowrap;
+}
+
+.portfolio-item-description {
+  font-size: 14px;
+  margin: 0;
+}
+
+.portfolio-item-technology {
+  font-size: 13px;
+  margin: 0;
+  color: var(--text-h);
+}
+
+.portfolio-item-links {
+  display: flex;
+  gap: 12px;
+  margin-top: 4px;
+}
+
+.portfolio-item-links a {
+  font-size: 14px;
+  color: var(--accent);
+}
+
+.portfolio-item-error {
+  font-size: 13px;
+  margin: 0;
+  color: var(--error, #d32f2f);
+}
+
+.portfolio-item-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.portfolio-item-edit,
+.portfolio-item-delete,
+.portfolio-item-delete-confirm,
+.portfolio-item-cancel {
+  font: inherit;
+  font-size: 13px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: border-color 0.3s;
+}
+
+.portfolio-item-edit {
+  color: var(--accent);
+  background: var(--accent-bg);
+  border: 2px solid transparent;
+}
+
+.portfolio-item-edit:hover {
+  border-color: var(--accent-border);
+}
+
+.portfolio-item-delete,
+.portfolio-item-cancel {
+  color: var(--text-h);
+  background: transparent;
+  border: 1px solid var(--border);
+}
+
+.portfolio-item-delete:hover:not(:disabled),
+.portfolio-item-cancel:hover:not(:disabled) {
+  border-color: var(--error, #d32f2f);
+  color: var(--error, #d32f2f);
+}
+
+.portfolio-item-delete-confirm {
+  color: #fff;
+  background: var(--error, #d32f2f);
+  border: 2px solid transparent;
+}
+
+.portfolio-item-delete-confirm:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.portfolio-item-delete-confirm:disabled,
+.portfolio-item-cancel:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.portfolio-item-confirm-text {
+  font-size: 13px;
+  color: var(--text-h);
+}
+
+.portfolio-load-more {
+  font: inherit;
+  margin-top: 24px;
+  padding: 10px 16px;
+  border-radius: 6px;
+  color: var(--accent);
+  background: var(--accent-bg);
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: border-color 0.3s;
+}
+
+.portfolio-load-more:hover:not(:disabled) {
+  border-color: var(--accent-border);
+}
+
+.portfolio-load-more:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

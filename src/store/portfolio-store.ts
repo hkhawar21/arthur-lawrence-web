@@ -6,6 +6,7 @@ import {
   getPortfolioItems,
   updatePortfolioItem,
 } from '@/api/portfolio';
+import { useAuthStore } from '@/store/auth-store';
 import type { CreatePortfolioItemInput, PortfolioItem, UpdatePortfolioItemInput } from '@/types/portfolio';
 import { getApiErrorMessage } from '@/utils/apiHandler';
 
@@ -34,6 +35,25 @@ type PortfolioState = {
   deleteItem: (id: number) => Promise<boolean>;
 };
 
+const initialState = {
+  itemsById: {},
+  ids: [],
+  page: 0,
+  totalPages: null,
+  isLoading: false,
+  isLoadingMore: false,
+  error: null,
+
+  isCreating: false,
+  createError: null,
+
+  isUpdating: false,
+  updateError: null,
+
+  deletingIds: [],
+  deleteError: null,
+} satisfies Partial<PortfolioState>;
+
 /**
  * Single source of truth for portfolio item data. Items are normalized by id
  * so any consumer (e.g. a FlatList row) can subscribe to just its own item
@@ -53,29 +73,14 @@ type PortfolioState = {
  * flag) so a row's own loading/disabled state doesn't affect other rows.
  */
 export const usePortfolioStore = create<PortfolioState>((set, get) => ({
-  itemsById: {},
-  ids: [],
-  page: 0,
-  totalPages: null,
-  isLoading: false,
-  isLoadingMore: false,
-  error: null,
-
-  isCreating: false,
-  createError: null,
-
-  isUpdating: false,
-  updateError: null,
-
-  deletingIds: [],
-  deleteError: null,
+  ...initialState,
 
   fetchFirstPage: async (limit) => {
     if (get().isLoading) return;
     set({ isLoading: true, error: null });
 
     try {
-      const { items, pagination } = await getPortfolioItems({ page: 1, limit });
+      const { items, pagination } = await getPortfolioItems({ page: 1, limit }, useAuthStore.getState().token);
 
       set((state) => ({
         itemsById: { ...state.itemsById, ...Object.fromEntries(items.map((item) => [item.id, item])) },
@@ -98,7 +103,10 @@ export const usePortfolioStore = create<PortfolioState>((set, get) => ({
     set({ isLoadingMore: true, error: null });
 
     try {
-      const { items, pagination } = await getPortfolioItems({ page: nextPage, limit });
+      const { items, pagination } = await getPortfolioItems(
+        { page: nextPage, limit },
+        useAuthStore.getState().token,
+      );
 
       set((state) => ({
         itemsById: { ...state.itemsById, ...Object.fromEntries(items.map((item) => [item.id, item])) },
@@ -116,7 +124,7 @@ export const usePortfolioStore = create<PortfolioState>((set, get) => ({
     set({ isCreating: true, createError: null });
 
     try {
-      const item = await createPortfolioItem(input);
+      const item = await createPortfolioItem(input, useAuthStore.getState().token);
 
       set((state) => ({
         itemsById: { ...state.itemsById, [item.id]: item },
@@ -135,7 +143,7 @@ export const usePortfolioStore = create<PortfolioState>((set, get) => ({
     set({ isUpdating: true, updateError: null });
 
     try {
-      const item = await updatePortfolioItem(id, input);
+      const item = await updatePortfolioItem(id, input, useAuthStore.getState().token);
 
       set((state) => ({
         itemsById: { ...state.itemsById, [item.id]: item },
@@ -153,7 +161,7 @@ export const usePortfolioStore = create<PortfolioState>((set, get) => ({
     set((state) => ({ deletingIds: [...state.deletingIds, id], deleteError: null }));
 
     try {
-      await deletePortfolioItem(id);
+      await deletePortfolioItem(id, useAuthStore.getState().token);
 
       set((state) => {
         const { [id]: _removed, ...itemsById } = state.itemsById;
@@ -182,3 +190,11 @@ export function usePortfolioItem(id: number): PortfolioItem | undefined {
 export function useIsDeletingPortfolioItem(id: number): boolean {
   return usePortfolioStore((state) => state.deletingIds.includes(id));
 }
+
+// Portfolio data is per-user; drop it the moment a session ends so a
+// different user signing in on the same tab doesn't briefly see stale data.
+useAuthStore.subscribe((state, prevState) => {
+  if (state.status === 'signedOut' && prevState.status !== 'signedOut') {
+    usePortfolioStore.setState(initialState);
+  }
+});

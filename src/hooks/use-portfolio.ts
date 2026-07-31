@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 
 import { getPortfolioItem } from '@/api/portfolio';
+import { useAuthStore } from '@/store/auth-store';
 
 import { useAsyncCallback } from './use-async-callback';
 
@@ -13,7 +14,9 @@ import { useAsyncCallback } from './use-async-callback';
  * shared list state, not just one screen's local state.
  */
 export function useGetPortfolioItem(id: number | null) {
-  const { execute, ...state } = useAsyncCallback(getPortfolioItem);
+  const { execute, ...state } = useAsyncCallback((itemId: number) =>
+    getPortfolioItem(itemId, useAuthStore.getState().token),
+  );
 
   useEffect(() => {
     if (id === null) return;
