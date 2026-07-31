@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 import { useAuthStore } from '@/store/auth-store'
 import { usePortfolioStore } from '@/store/portfolio-store'
-import PortfolioItemCard from '@/components/PortfolioItemCard'
+import PortfolioItemCard from '@/components/PortfolioItemCard/PortfolioItemCard'
 import './Home.css'
 
 const PAGE_LIMIT = 10

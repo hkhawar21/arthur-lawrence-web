@@ -6,7 +6,7 @@ import Home from './pages/Home/Home.jsx'
 import Login from './pages/Login/Login.jsx'
 import PortfolioNew from './pages/Portfolio/PortfolioNew.jsx'
 import PortfolioEdit from './pages/Portfolio/PortfolioEdit.jsx'
-import ProtectedRoute from './components/ProtectedRoute.jsx'
+import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute.jsx'
 import { useAuthStore } from './store/auth-store'
 
 useAuthStore.getState().hydrate()

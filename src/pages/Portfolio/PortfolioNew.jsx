@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 
 import { usePortfolioStore } from '@/store/portfolio-store'
-import PortfolioForm from '@/components/PortfolioForm'
+import PortfolioForm from '@/components/PortfolioForm/PortfolioForm'
 import { portfolioFormInitialValues, toPortfolioItemInput } from '@/types/portfolio'
 import './PortfolioFormPage.css'
 

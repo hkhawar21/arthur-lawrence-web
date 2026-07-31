@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
-import PortfolioForm from "@/components/PortfolioForm";
+import PortfolioForm from "@/components/PortfolioForm/PortfolioForm";
 import { useGetPortfolioItem } from "@/hooks/use-portfolio";
 import { usePortfolioStore } from "@/store/portfolio-store";
 import { toPortfolioFormValues, toPortfolioItemInput } from "@/types/portfolio";
